@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content_1 %}
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+			<p class="lead">DD|MM|YYYY</p>	
+          <h1 class="display-1">TIME</h1>
+			<blockquote class="blockquote">
+				<p class="mb-0">Daily Quote from some people around the world.</p>
+				<footer class="blockquote-footer">Someone famous in 
+					<cite title="Source Title">Source Title</cite>
+				</footer>
+			</blockquote>
+        </div>
+        <div class="row" style="align-self: center;">
+        	
+        	{% for group in groups %}
+        	<a href="http://facebook.com" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
+				<div class="row">
+					<div class="col-12 align-middle">
+						<h3>{{group.group_name}}</h3>
+					</div>
+				</div>
+			</a>
+        	{% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}
