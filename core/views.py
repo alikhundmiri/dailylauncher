@@ -14,6 +14,12 @@ def index(request):
 		created_groups = group.objects.filter(user=request.user)
 	else:
 		return HttpResponseRedirect('/welcome')
+
+	# for g in created_groups.all():
+		# print(g.group_name)
+		# for l in g.website.all():
+			# print("\t\t" + str(l))
+		# print("\n")
 	
 	context = {
 		"groups" : created_groups,

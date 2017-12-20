@@ -1,5 +1,39 @@
 {% extends 'index.html' %}
 {% load static %}
+{% load tz %}
+
+
+{% block head_extras %}
+<script type="text/javascript">
+	function open_win() {
+		window.open("http://www.java2s.com/")
+		window.open("http://www.Facebook.com/")
+		window.open("http://www.reddit.com/")
+		window.open("http://www.gmail.com/")
+		window.open("http://www.Facebook.com/")
+		};
+{% comment %}
+	{% for group in groups %}
+		$("#{{group.slug}}-jscript").click(
+			function(e) {
+				{% for link in group.website.all %}
+					window.open("{{link.link}}")
+				{% endfor %}
+			}
+		);
+	{% endfor %}
+{% endcomment %}
+
+	{% for group in groups%}
+	function {{request.user.username}}_{{forloop.counter}}() {
+		{% for link in group.website.all %}
+		window.open("{{link.link}}")
+		{% endfor %}
+		};
+	{% endfor %}
+</script>
+
+{% endblock %}
 
 {% block content_1 %}
     <!-- Page Content -->
@@ -7,7 +41,18 @@
       <div class="row">
         <div class="col-lg-12 text-center">
 			<p class="lead">DD|MM|YYYY</p>	
-          <h1 class="display-1">TIME</h1>
+			<h1 class="display-1">
+      			TIME
+				{% localtime on %}
+					{{ value }}
+				{% endlocaltime %}
+{% get_current_timezone as TIME_ZONE %}
+      		</h1>
+
+<!-- 			<iframe src="http://free.timeanddate.com/clock/i616itgl/n1522/fs48/fcfff/tct/pct" frameborder="0" width="384" height="57" allowTransparency="true"></iframe>
+ -->
+
+
 			<blockquote class="blockquote">
 				<p class="mb-0">Daily Quote from some people around the world.</p>
 				<footer class="blockquote-footer">Someone famous in 
@@ -15,17 +60,28 @@
 				</footer>
 			</blockquote>
         </div>
-        <div class="row" style="align-self: center;">
-        	
+        <div class="row" style="align-self: center;">      	
         	{% for group in groups %}
-        	<a href="http://facebook.com" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
+        	<a href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
 				<div class="row">
 					<div class="col-12 align-middle">
 						<h3>{{group.group_name}}</h3>
+							<p style="color: white">
+								{% for link in group.website.all %}
+									{{link.title}}, 
+								{% endfor %}
+							</p>
 					</div>
 				</div>
 			</a>
         	{% endfor %}
+        	<a href="#" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
+        		<div class="row">
+        			<div class="col-12 align-middle">
+        				<h1 class="display-1"><i>+</i></h1>
+        			</div>
+        		</div>
+        	</a>
         </div>
       </div>
     </div>
