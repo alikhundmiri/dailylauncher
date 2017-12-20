@@ -131,15 +131,63 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # Local files
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
-# Copy data from here to server
+# # Copy data from here to server
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+#     #'/var/www/static/',
+# ]
+# # Server emmumator. One up DIR
+# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+
+# MEDIA_URL = "/media_cdn/"
+# MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+########################################################################################
+
+AWS_STORAGE_BUCKET_NAME = 'daily-launcher'
+AWS_ACCESS_KEY_ID = 'AKIAILXC3ZDT736A42QA'
+AWS_SECRET_ACCESS_KEY = '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'
+
+# Tell django-storages that when coming up with the URL for an item in S3 storage, keep
+# it simple - just use this domain plus the path. (If this isn't set, things get complicated).
+# This controls how the `static` template tag from `staticfiles` gets expanded, if you're using it.
+# We also use it in the next setting.
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# NOW REPLACING THESE LINES TO USE OUR S3 BUCKET MORE ELEGANTLY.
+# NOW WE WILL HAVE /static/ FOLDER FOR STATIC FILES, /media/ FOR OUR MEDIA FILES
+
+# # This is used by the `static` template tag from `static`, if you're using that. Or if anything else
+# # refers directly to STATIC_URL. So it's safest to always set it.
+# STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+#
+# # Tell the staticfiles app to use S3Boto storage when writing the collected static files (when
+# # you run `collectstatic`).
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
+# Grab all the files from here, and put them in the S3 Bucket!!
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    #'/var/www/static/',
 ]
-# Server emmumator. One up DIR
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
+# Added this on 19th August. After learning from experiments on Ritrew app.
 
-MEDIA_URL = "/media_cdn/"
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+# I JUST ADDED A FILE NAMED cumstom_storages.py IN THE SAME DIRECTORY AS manage.oy
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+# FROM HERE IS THE SETTINGS FOR MEDIA FILES
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+# THESE LINES WILL SAY THE EXPIRATION OF THIS DATA HAS NOT YET COME, SO USE THESE TILL IT EXPIRES.
+AWS_HEADERS = {  # see http://developer.yahoo.com/performance/rules.html#expires
+    'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+    'Cache-Control': 'max-age=94608000',
+}
+

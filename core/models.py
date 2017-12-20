@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save
+from django.forms import ModelForm
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
 import random
@@ -21,6 +23,9 @@ class group(models.Model):
 
 	def __str__(self):
 		return(self.user.username)
+
+	def get_absolute_url(self):
+		return reverse("user:home", kwargs={"slug" : self.slug})
 
 	class Meta:
 		ordering 	=		["-timestamp", "-updated"]

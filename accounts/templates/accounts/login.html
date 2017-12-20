@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% load static from staticfiles %}
+
+{% block header0 %}
+    <link href="{% static 'login/css/signin.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content_1 %}
+
+<div style="margin-top: 150px" class="row"></div>
+
+<div class="row">
+</div>
+<div class="container">
+      <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 text-center">
+            <h2 class="form-signin-heading">Welcome!<br><small>Are you ready to {{nbar}}</small></h2>
+
+            <form class="form-signin" method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+                <br>
+                {{ form }}
+                <br>
+                <br>
+                <input type='submit' class='btn btn-lg btn-primary btn-block' name='next' value='{{ nbar }}'/>
+            </form>
+            <hr>
+            <br>
+
+            <p>New Here? <a href="/register">Register!</a></p>
+            <p>Looking to login? <a href="/login">Login!</a></p>
+            
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top: 200px" class="row"></div>
+
+{% endblock %}

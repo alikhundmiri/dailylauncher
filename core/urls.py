@@ -17,6 +17,9 @@ Including another URLconf
 from django.urls import path
 from . import views
 
+app_name = 'core'
 urlpatterns = [
-	path('', views.index),
+	path('', views.index, name='home'),
+	path('new', views.card_create, name='card_create'),
 ]
+

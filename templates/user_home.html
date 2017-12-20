@@ -2,27 +2,28 @@
 {% load static %}
 {% load tz %}
 
+{% block bodytag %}
+	onload="startTime()"
+{% endblock %}
 
 {% block head_extras %}
 <script type="text/javascript">
-	function open_win() {
-		window.open("http://www.java2s.com/")
-		window.open("http://www.Facebook.com/")
-		window.open("http://www.reddit.com/")
-		window.open("http://www.gmail.com/")
-		window.open("http://www.Facebook.com/")
-		};
-{% comment %}
-	{% for group in groups %}
-		$("#{{group.slug}}-jscript").click(
-			function(e) {
-				{% for link in group.website.all %}
-					window.open("{{link.link}}")
-				{% endfor %}
-			}
-		);
-	{% endfor %}
-{% endcomment %}
+// This is for the clock on the main page.
+	function startTime() {
+		var today = new Date();
+		var h = today.getHours();
+		var m = today.getMinutes();
+		var s = today.getSeconds();
+		m = checkTime(m);
+		s = checkTime(s);
+		document.getElementById('clocktext').innerHTML =
+		h + ":" + m + ":" + s;
+		var t = setTimeout(startTime, 500);
+	}
+	function checkTime(i) {
+		if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+		return i;
+	}
 
 	{% for group in groups%}
 	function {{request.user.username}}_{{forloop.counter}}() {
@@ -40,23 +41,15 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
-			<p class="lead">DD|MM|YYYY</p>	
-			<h1 class="display-1">
+			<p class="lead"> {{today|date:"D d M Y"}}</p>	
+			<h1 class="display-1" id="clocktext">
       			TIME
-				{% localtime on %}
-					{{ value }}
-				{% endlocaltime %}
-{% get_current_timezone as TIME_ZONE %}
       		</h1>
 
-<!-- 			<iframe src="http://free.timeanddate.com/clock/i616itgl/n1522/fs48/fcfff/tct/pct" frameborder="0" width="384" height="57" allowTransparency="true"></iframe>
- -->
-
-
 			<blockquote class="blockquote">
-				<p class="mb-0">Daily Quote from some people around the world.</p>
-				<footer class="blockquote-footer">Someone famous in 
-					<cite title="Source Title">Source Title</cite>
+				<p class="mb-0">It is better to lead from behind and to put others in front, especially when you celebrate victory when nice things occur. You take the front line when there is danger. Then people will appreciate your leadership.</p>
+				<footer class="blockquote-footer">Words of Wisdom by 
+					<cite title="Source Title">Nelson Mandela</cite>
 				</footer>
 			</blockquote>
         </div>
@@ -75,7 +68,7 @@
 				</div>
 			</a>
         	{% endfor %}
-        	<a href="#" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
+        	<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
         		<div class="row">
         			<div class="col-12 align-middle">
         				<h1 class="display-1"><i>+</i></h1>
