@@ -17,7 +17,7 @@ def index(request):
 		# created_groups = get_object_or_404(group, user=request.user)
 		created_groups = group.objects.filter(user=request.user)
 	else:
-		return HttpResponseRedirect('/register')
+		return HttpResponseRedirect('/welcome')
 
 	# for g in created_groups.all():
 		# print(g.group_name)
@@ -53,6 +53,7 @@ def card_create(request):
 		return HttpResponseRedirect("/")
 	context = {
 		"form" : form,
+		"nbar" : "New Card",
 	}
 	return render(request, 'general_form.html', context)
 

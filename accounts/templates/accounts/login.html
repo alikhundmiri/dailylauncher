@@ -5,6 +5,10 @@
     <link href="{% static 'login/css/signin.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}
+    {{nbar}} | {{ block.super }}
+{% endblock %}
+
 {% block content_1 %}
 
 <div style="margin-top: 150px" class="row"></div>

@@ -1,6 +1,33 @@
 {% extends 'index.html' %}
 {% load static %}
 
+{% block title %}
+    Welcome | {{ block.super }}
+{% endblock %}
+
 {% block content_1 %}
-	<p>Welcome User!</p>
+	<div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+			<h1 class="display-1" id="clocktext">
+      			daily Launcher
+      		</h1>
+			<p class="lead">Start you day 100% focused.</p>	
+			<br>
+			<p>Being a freelancer, I came across this problem of not being 100% efficient. Something had to be done. <br> After a few lathegic days I createdthis site <i>(in a single day actually!! personal record)</i> to keep my mornings together</p>
+			<p>Now When I open my browser all the pages I need to start my work are in front of me.<br> No more devils diversion towards those netflix and youtube during work time.</p>
+			<br>
+			<p>Feel free to set this as your homepage! <i>The more the merrier</i></p>
+			<br>
+			<p>Found something missing? any tipe on how i can improve the site? <a style="color: #CADBC0" href="https://www.twitter.com/newlifeshoes">Tweet me!.</a> :) </p>
+
+			{% if request.user.is_authenticated %}
+				<p><a href="{% url 'logout' %}">LOGOUT</a></p>
+			{% else %}
+				<p><a href="{% url 'login' %}">LOGIN</a></p>
+				<p><a href="{% url 'register' %}">REGISTER</a></p>
+			{% endif %}
+  			</div>
+  		</div>
+  	</div>
 {% endblock %}

@@ -1,6 +1,10 @@
 {% extends 'index.html' %}
 {% load static %}
-{% load tz %}
+
+{% block title %}
+   {{ block.super }}
+{% endblock %}
+
 
 {% block bodytag %}
 	onload="startTime()"
