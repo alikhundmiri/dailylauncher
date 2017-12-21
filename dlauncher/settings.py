@@ -21,11 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '8k0*mmd0-brmifhohiou7i!b-dh%k*_a-yeqs*i-)28z!&pg=!'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['daily-launcher.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['www.daily-launcher.herokuapp.com','daily-launcher.herokuapp.com','127.0.0.1']
 
 
 # Application definition

@@ -34,6 +34,7 @@
       a.card-block { background-color: #F0544F; margin: 20px; color: #CADBC0; }
     </style>
 
+{% if not dbug %}
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111493778-1"></script>
@@ -62,6 +63,7 @@
     src="https://www.facebook.com/tr?id=126623968064975&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Facebook Pixel Code -->
+{% endif %}
 
 {% block head_extras %}
 {% endblock %}
@@ -69,16 +71,18 @@
   </head>
 
   <body bgcolor="#331832" {% block bodytag %} {% endblock %}>
+  {% if not dbug %}
   <script>
     fbq('track', 'Purchase');
     fbq('track', 'Search');
     fbq('track', 'AddPaymentInfo');
   </script>
-
+  {% endif %}
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'user:home' %}">{% if request.user.is_authenticated %} Howdy {{request.user.username}} {% else %} daily Launcher {% endif %}</a>
+        <a class="navbar-brand" href="{% url 'user:home' %}">{% if request.user.is_authenticated %} Howdy {{request.user.username}} {% else %} daily Launcher {% endif %}
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -88,7 +92,7 @@
               <a class="nav-link" href="#">Make Homepage</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Price</a>
+              <a class="nav-link" href="{% url 'user:price' %}">Price</a>
             </li>
             <li class="nav-item">
               {% if request.user.is_authenticated %}
@@ -101,6 +105,7 @@
         </div>
       </div>
     </nav>
+
 
   {% block content_1 %}
   {% endblock %}

@@ -20,6 +20,7 @@ from . import views
 app_name = 'core'
 urlpatterns = [
 	path('', views.index, name='home'),
+	path('price', views.price, name='price'),
 	path('new', views.card_create, name='card_create'),
 ]
 

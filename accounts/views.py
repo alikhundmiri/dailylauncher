@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from django.contrib.auth import (
 	authenticate,
 	get_user_model,
@@ -8,6 +10,7 @@ from django.shortcuts import render, redirect
 from .forms import UserLoginForm, UserRegisterForm
 
 def login_view(request):
+	dbug = settings.DEBUG
 	form = UserLoginForm(request.POST or None)
 	if form.is_valid():
 		username = form.cleaned_data.get("username")
@@ -20,10 +23,12 @@ def login_view(request):
 		"name_nav" : 'login',
 		"nbar" : "login",
 		"form" : form,
+		"dbug" : dbug,
 	}
 	return render(request, 'accounts/login.html', context)
 
 def register_view(request):
+	dbug = settings.DEBUG
 	form = UserRegisterForm(request.POST or None)
 	if form.is_valid():
 		user = form.save(commit=False)
@@ -38,6 +43,7 @@ def register_view(request):
 		"name_nav" : 'register',	
 		"nbar" : "register",
 		"form":form,
+		'dbug' : dbug,
 	}
 	return render(request, 'accounts/login.html', context)
 

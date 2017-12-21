@@ -3,15 +3,28 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import datetime
 
+from django.conf import settings
 
 from .models import group, linklist
 from .forms import NewGroupForm, NewLinkForm
 
+def price(request):
+	dbug = settings.DEBUG
+
+	context = {
+		'dbug' : dbug,
+	}
+	return render(request, 'price.html', context)
 
 def welcome(request):
-	return render(request, 'welcome.html')
+	dbug = settings.DEBUG
+	context = {
+		'dbug' : dbug
+	}
+	return render(request, 'welcome.html', context)
 
 def index(request):
+	dbug = settings.DEBUG
 	today = datetime.today()
 	if request.user.is_authenticated:
 		# created_groups = get_object_or_404(group, user=request.user)
@@ -28,11 +41,14 @@ def index(request):
 	context = {
 		"groups" : created_groups,
 		"today" : today,
+		'dbug' : dbug,
 	}
 	return render(request, 'user_home.html', context)
 
 @login_required
 def card_create(request):
+	dbug = settings.DEBUG
+
 	if request.user.is_authenticated:
 		pass
 	else:
@@ -54,6 +70,7 @@ def card_create(request):
 	context = {
 		"form" : form,
 		"nbar" : "New Card",
+		'dbug' : dbug,
 	}
 	return render(request, 'general_form.html', context)
 

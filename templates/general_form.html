@@ -7,9 +7,25 @@
 {% endblock %}
 
 {% block content_1 %}
-	<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
-		{{ form|crispy }}
-		<input type='submit' class='btn btn-default' value='Create New'/>
-	</form>
+<div style="margin-top: 100px" class="row"></div>
+
+<div class="row">
+</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4"></div>
+			<div class="col-lg-4 text-center">
+				<h1 class="display-5" id="clocktext">
+      				Add a new Card!
+      			</h1>
+				<form method='POST' action='' enctype='multipart/form-data'>{% csrf_token %}
+					{{ form|crispy }}
+                	<input type='submit' class='btn btn-lg btn-primary btn-block' name='next' value='{{ nbar }}'/>
+
+				</form>
+      		</div>
+      	</div>
+	</div>
 
 {% endblock %}
