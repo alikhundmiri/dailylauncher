@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8k0*mmd0-brmifhohiou7i!b-dh%k*_a-yeqs*i-)28z!&pg=!'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'SOME+RANDOM+KEY(z9+3vnm(jb0u@&w68t#5_e8s9-lbfhv-')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -146,9 +146,9 @@ USE_TZ = True
 ########################################################################################
 
 AWS_STORAGE_BUCKET_NAME = 'daily-launcher'
-AWS_ACCESS_KEY_ID = 'AKIAILXC3ZDT736A42QA'
-AWS_SECRET_ACCESS_KEY = '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'
 
+AWS_ACCESS_KEY_ID = os.environ.get('S3_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('S3_SECRET')
 # Tell django-storages that when coming up with the URL for an item in S3 storage, keep
 # it simple - just use this domain plus the path. (If this isn't set, things get complicated).
 # This controls how the `static` template tag from `staticfiles` gets expanded, if you're using it.
