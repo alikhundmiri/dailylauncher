@@ -8,7 +8,7 @@ from django.utils import timezone
 import random
 
 def suggest_group():
-	groups = ['Netflix and Chill','Amazon window Shopping','Social Networking''Social Life','Work mode', 'Apple News','Rabbit Hole','random Creeps of internet']
+	groups = ['Netflix and Chill','Amazon window Shopping','Social Networking', 'Social Life', 'Work mode', 'Apple News','Rabbit Hole','random Creeps of The Internet']
 
 	return(random.choice(groups))
 
@@ -16,13 +16,14 @@ class group(models.Model):
 	user			=		models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
 	slug			=		models.SlugField(unique=True)
 	group_name		=		models.CharField(max_length=50, blank=False, null=False, default=suggest_group())
-	website			=		models.ManyToManyField('linklist')
+	# website			=		models.ManyToManyField('linklist', blank=True, null=True, related_name='group_link')
+	# webpage			=		models.ForeignKey('linklist', related_name='card_content', on_delete=models.CASCADE, default=1)
 
 	timestamp		=		models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated			=		models.DateTimeField(auto_now=True, auto_now_add=False)
 
 	def __str__(self):
-		return(self.user.username)
+		return(self.group_name + str(" - ") + self.user.username)
 
 	def get_absolute_url(self):
 		return reverse("user:home", kwargs={"slug" : self.slug})
@@ -36,6 +37,9 @@ class linklist(models.Model):
 	user 			=		models.ForeignKey(settings.AUTH_USER_MODEL, default=1,on_delete=models.CASCADE)
 	title			=		models.CharField(max_length=50, blank=False, null=False)
 	link 			=		models.CharField(max_length=100, blank=False, null=False)
+	card			=		models.ForeignKey('group', related_name='card_content', on_delete=models.CASCADE, default=1)
+
+
 	visit_count		=		models.IntegerField(default=0)
 	timestamp		=		models.DateTimeField(auto_now=False, auto_now_add=True)
 	updated			=		models.DateTimeField(auto_now=True, auto_now_add=False)

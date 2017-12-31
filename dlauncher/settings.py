@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'SOME+RANDOM+KEY(z9+3vnm(jb0u@&w68t#5_e8s9-lbfhv-')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.daily-launcher.herokuapp.com','daily-launcher.herokuapp.com','127.0.0.1']
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Third party apps
     'storages',
     'crispy_forms',
+    'widget_tweaks',
 
 ]
 

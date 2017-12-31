@@ -21,17 +21,22 @@
     <!-- Custom styles for this template -->
     <style>
       body {
+        /*overflow: hidden;*/
         padding-top: 54px;
         background: #331832 !important;/* Adding !important forces the browser to overwrite the default style 
         applied by Bootstrap */
         color : #FCEAEA;
+        /*Div of Cards, align center */
+        display:flex;
       }
       @media (min-width: 992px) {
         body {
           padding-top: 56px;
         }
       }
-      a.card-block { background-color: #F0544F; margin: 20px; color: #CADBC0; }
+      a.card-block, card-block { background-color: #F0544F; margin: 20px; color: #CADBC0; }
+      h5.custom-card h6.custom-card {color: #000000}
+      div.new_card {  }
     </style>
 
 {% if not dbug %}
@@ -73,15 +78,15 @@
   <body bgcolor="#331832" {% block bodytag %} {% endblock %}>
   {% if not dbug %}
   <script>
-    fbq('track', 'Purchase');
     fbq('track', 'Search');
-    fbq('track', 'AddPaymentInfo');
   </script>
   {% endif %}
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'user:home' %}">{% if request.user.is_authenticated %} Howdy {{request.user.username}} {% else %} daily Launcher {% endif %}
+        <a class="navbar-brand" href="{% url 'user:home' %}">
+          <sub style="color: RED"><sup>ALPHA</sup></sub>
+          {% if request.user.is_authenticated %} Howdy {{request.user.username}} {% else %} daily Launcher {% endif %}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -106,9 +111,11 @@
       </div>
     </nav>
 
+  <div class="container col">
+    {% block content_1 %}
+    {% endblock %}
+  </div>
 
-  {% block content_1 %}
-  {% endblock %}
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'base/vendor/jquery/jquery.min.js' %}"></script>

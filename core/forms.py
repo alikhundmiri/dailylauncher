@@ -1,64 +1,84 @@
 from django import forms
+from django.forms.formsets import BaseFormSet
+
+
 from .models import group, linklist
 
 
-class NewGroupForm(forms.ModelForm):
-	website = forms.ModelMultipleChoiceField(queryset=linklist.objects.all())
-	class Meta:
-		model = group
-		fields = [
-			"group_name",
-			"website"
-		]
+# FORM FOR INDIVIDUAL LINKS
+class NewLinkForm(forms.Form):
+	title = forms.CharField(
+					max_length=50,
+					widget=forms.TextInput(attrs={
+							'placeholder' : 'Example: Github'
+						}), 
+					required=False)
+	link = forms.CharField(
+					max_length=100,
+					widget=forms.TextInput(attrs={
+							'placeholder' : 'Example: Https://www.github.com'
+						}),
+					required=False)
+
+# FORM FOR NEW CARD, WHICH WILL BE USED TO NEST THE ABOVE FORM
+class NewGroupForm(forms.Form):
+
 	def __init__(self, *args, **kwargs):
-		# Only in case we build the form from an instance
-		# (otherwise, 'toppings' list should be empty)
-		if kwargs.get('instance'):
-			# We get the 'initial' keyword argument or initialize it
-			# as a dict if it didn't exist.                
-			initial = kwargs.setdefault('initial', {})
-			# The widget for a ModelMultipleChoiceField expects
-			# a list of primary key for the selected data.
-			initial['website'] = [t.pk for t in kwargs['instance'].topping_set.all()]
+		self.user = kwargs.pop('user', None)
 
-		forms.ModelForm.__init__(self, *args, **kwargs)
+		super(NewGroupForm, self).__init__(*args, **kwargs)
 
-	# Overriding save allows us to process the value of 'toppings' field    
-	def save(self, commit=True):
-		# Get the unsave Pizza instance
-		instance = forms.ModelForm.save(self, False)
+		self.fields['group_name'] = forms.CharField(
+										max_length=50,
+							widget=forms.TextInput(attrs={
+							'placeholder' : 'Example: Work Mode or Netflix & chill.',
+						}))
 
-		# Prepare a 'save_m2m' method for the form,
-		old_save_m2m = self.save_m2m
-		def save_m2m():
-			old_save_m2m()
-			# This is where we actually link the pizza with toppings
-			instance.topping_set.clear()
-			for topping in self.cleaned_data['website']:
-				instance.topping_set.add(topping)
-		self.save_m2m = save_m2m
+		# I am not declaring field 'user' because I think 
+		# it will be saved by itself. as declared in models
 
-		# Do we need to save all changes now?
-		if commit:
-			instance.save()
-			self.save_m2m()
+class BaseLinkFormSet(BaseFormSet):
+    def clean(self):
+        """
+        Adds validation to check that no two links have the same anchor or URL
+        and that all links have both an anchor and URL.
+        """
+        if any(self.errors):
+            return
 
-		return instance
+        anchors = []
+        urls = []
+        duplicates = False
 
+        for form in self.forms:
+            if form.cleaned_data:
+                anchor = form.cleaned_data['title']
+                url = form.cleaned_data['link']
 
-class NewLinkForm(forms.ModelForm):
-	class Meta:
-		model = linklist
-		fields = [
-			"title",
-			"link",
-		]
+                # Check that no two links have the same anchor or URL
+                if anchor and url:
+                    if anchor in anchors:
+                        duplicates = True
+                    anchors.append(anchor)
 
-# class NewLinkForm(forms.Form):
-# 	title = forms.CharField(max_length=50)
-# 	link = forms.CharField(max_length=100)
+                    if url in urls:
+                        duplicates = True
+                    urls.append(url)
 
-# class NewGroupForm(forms.Form):
-# 	group_name = forms.CharField(max_length=50)
-# 	website = forms.ModelMultipleChoiceField(queryset=linklist.objects.all())
+                if duplicates:
+                    raise forms.ValidationError(
+                        'Links must have unique Names and URLs.',
+                        code='duplicate_links'
+                    )
 
+                # Check that all links have both an anchor and URL
+                if url and not anchor:
+                    raise forms.ValidationError(
+                        'All links must have an anchor.',
+                        code='missing_anchor'
+                    )
+                elif anchor and not url:
+                    raise forms.ValidationError(
+                        'All links must have a URL.',
+                        code='missing_URL'
+                    )

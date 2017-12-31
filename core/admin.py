@@ -8,7 +8,7 @@ class GroupAdmin(admin.ModelAdmin):
 	list_display = ['user', 'group_name']
 	list_filter = ['user', 'group_name']
 	search_fields = ['user', 'group_name']
-	filter_horizontal = ['website']
+	# filter_horizontal = ['web']
 
 class LinkListAdmin(admin.ModelAdmin):
 	list_display = ['user','title', 'link', 'visit_count']

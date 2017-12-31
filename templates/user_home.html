@@ -2,17 +2,21 @@
 {% load static %}
 
 {% block title %}
-   {{ block.super }}
+{{ block.super }}
 {% endblock %}
 
 
 {% block bodytag %}
-	onload="startTime()"
+onload="startTime()"
 {% endblock %}
 
 {% block head_extras %}
+<style type="text/css">
+
+</style>
+
 <script type="text/javascript">
-// This is for the clock on the main page.
+	// This is for the clock on the main page.
 	function startTime() {
 		var today = new Date();
 		var h = today.getHours();
@@ -25,30 +29,30 @@
 		var t = setTimeout(startTime, 500);
 	}
 	function checkTime(i) {
-		if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-		return i;
-	}
+			if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+			return i;
+		}
 
-	{% for group in groups%}
+	{% for group in groups %}
 	function {{request.user.username}}_{{forloop.counter}}() {
-		{% for link in group.website.all %}
-		window.open("{{link.link}}")
+		{% for links in group.webpage.all %}
+		window.open("{{link.links}}")
 		{% endfor %}
-		};
+	};
 	{% endfor %}
 </script>
 
 {% endblock %}
 
 {% block content_1 %}
-    <!-- Page Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 text-center">
+<!-- Page Content -->
+<div class="container">
+	<div class="row text-center">
+		<div class="col-lg-12">
 			<p class="lead"> {{today|date:"D d M Y"}}</p>	
 			<h1 class="display-1" id="clocktext">
-      			TIME
-      		</h1>
+				TIME
+			</h1>
 
 			<blockquote class="blockquote">
 				<p class="mb-0">It is better to lead from behind and to put others in front, especially when you celebrate victory when nice things occur. You take the front line when there is danger. Then people will appreciate your leadership.</p>
@@ -56,30 +60,46 @@
 					<cite title="Source Title">Nelson Mandela</cite>
 				</footer>
 			</blockquote>
-        </div>
-        <div class="row" style="align-self: center;">      	
-        	{% for group in groups %}
-        	<a href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
-				<div class="row">
-					<div class="col-12 align-middle">
-						<h3>{{group.group_name}}</h3>
-							<p style="color: white">
-								{% for link in group.website.all %}
-									{{link.title}}, 
-								{% endfor %}
-							</p>
-					</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row" style="align-self: center;">
+		{% for group in groups %}
+
+
+		<div class="card custom-card" style="width: 18rem;background: #F0544F">
+			<div class="card-body">
+				<h1 class="card-title"><a style="color: #FCFCFC" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a></h1>
+				<h6 class="card-subtitle mb-2" style="color: #E5E5E5"><small># links</small></h6>
+				<p class="card-text">comma seperated links list here.</p>
+				<a href="#" class="card-link" style="color: #313F9E">edit</a>
+				<a href="#" class="card-link" style="color: #313F9E">delete</a>
+			</div>
+		</div>
+
+
+<!-- 		<a href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
+			<div class="row">
+				<div class="col-12 align-middle">
+					<h3>{{group.group_name}}</h3>
+					<p style="color: white">
+						{% for link in group.webpage.all %}
+						{{link.title}}, 
+						{% endfor %}
+					</p>
 				</div>
-			</a>
-        	{% endfor %}
-        	<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
-        		<div class="row">
-        			<div class="col-12 align-middle">
-        				<h1 class="display-1"><i>+</i></h1>
-        			</div>
-        		</div>
-        	</a>
-        </div>
-      </div>
-    </div>
+			</div>
+		</a> -->
+		{% endfor %}
+		<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
+			<div class="row">
+				<div class="col-12 align-middle">
+					<h1 class="display-1"><i>+</i></h1>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
 {% endblock %}
