@@ -13,8 +13,25 @@ from django.conf import settings
 from .models import group, linklist
 from .forms import NewGroupForm, NewLinkForm, BaseLinkFormSet
 
-def emptypage(request):
-	return render(request, 'emptyfile.html')
+# def demopage(request):
+# 	dbug = settings.DEBUG
+# 	today = datetime.today()
+
+# 	if request.user.is_authenticated:
+# 		return HttpResponseRedirect('user:home')
+	
+# 	created_groups = group.objects.filter(user='demo_agent').annotate(group__count=Count('card_content'))
+# 	created_links = linklist.objects.filter(user='demo_agent')
+
+# 	context = {
+# 		"groups" : created_groups,
+# 		'links' : created_links,
+# 		"today" : today,
+# 		'dbug' : dbug,
+
+# 	}
+# 	return render(request, 'user_home.html', context)
+
 
 def price(request):
 	dbug = settings.DEBUG

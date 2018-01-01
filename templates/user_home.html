@@ -30,9 +30,10 @@ a.changecard {
 	border: hidden;  	
 }
 div.custom-card {
-	width: 18rem;
+	width: 17rem;
 	background: #F0544F;
 	padding: 1px;
+
 }
 h6.card-subtitle {
 	color: #E5E5E5
@@ -99,7 +100,7 @@ div.modal {
 	<div class="container">
 		<div class="row" style="align-self: center;">
 			{% for group in groups %}
-			<div class="card custom-card col-lg-3">
+			<div class="card custom-card col-lg-3 col-sm-6 col-md-4 col-xs-10">
 				<div class="card-body">
 					<h1 class="card-title">
 						<a class="card-main" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a></h1>

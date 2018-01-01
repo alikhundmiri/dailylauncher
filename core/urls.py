@@ -22,9 +22,7 @@ urlpatterns = [
 	path('', views.index, name='home'),
 	path('price', views.price, name='price'),
 	path('new', views.card_create, name='card_create'),
-	
 	path('<slug:slug>/', include([
-		path('', views.emptypage, name='emptypage'),
 		path('edit/', views.card_edit, name='card_edit'),
 		path('delete/', views.card_delete, name='card_delete'),
 		])),
