@@ -11,10 +11,40 @@ onload="startTime()"
 {% endblock %}
 
 {% block head_extras %}
-<style type="text/css">
 
+<style>
+a.tinylink {
+	color : #FCEAEA;
+	background: #D33A34;
+	border: hidden;
+	outline: hidden;
+	padding: 5px;
+	margin: 1px;
+	line-height: 0.8;
+}  
+a.changecard {
+	color: #D3C4C4;
+	background: #F0544F;
+	outline: hidden;
+	border-color: #F0544F;
+	border: hidden;  	
+}
+div.custom-card {
+	width: 18rem;
+	background: #F0544F;
+	padding: 1px;
+}
+h6.card-subtitle {
+	color: #E5E5E5
+}
+a.card-main {
+	color: #FCFCFC
+}
+
+div.modal {
+	color: #0a0a0a
+}
 </style>
-
 <script type="text/javascript">
 	// This is for the clock on the main page.
 	function startTime() {
@@ -33,65 +63,64 @@ onload="startTime()"
 			return i;
 		}
 
-	{% for group in groups %}
-	function {{request.user.username}}_{{forloop.counter}}() {
-		{% for links in group.webpage.all %}
-		window.open("{{link.links}}")
+		{% for group in groups %}
+		function {{request.user.username}}_{{forloop.counter}}() {
+			{% for link in links %}
+			{% if link.card == group %}
+			window.open("{{link.link}}")
+			{% endif %}
+			{% endfor %}
+		};
 		{% endfor %}
-	};
-	{% endfor %}
-</script>
+	</script>
 
-{% endblock %}
+	{% endblock %}
 
-{% block content_1 %}
-<!-- Page Content -->
-<div class="container">
-	<div class="row text-center">
-		<div class="col-lg-12">
-			<p class="lead"> {{today|date:"D d M Y"}}</p>	
-			<h1 class="display-1" id="clocktext">
-				TIME
-			</h1>
+	{% block content_1 %}
+	<!-- Page Content -->
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-lg-12">
+				<p class="lead"> {{today|date:"D d M Y"}}</p>	
+				<h1 class="display-1" id="clocktext">
+					TIME
+				</h1>
 
-			<blockquote class="blockquote">
-				<p class="mb-0">It is better to lead from behind and to put others in front, especially when you celebrate victory when nice things occur. You take the front line when there is danger. Then people will appreciate your leadership.</p>
-				<footer class="blockquote-footer">Words of Wisdom by 
-					<cite title="Source Title">Nelson Mandela</cite>
-				</footer>
-			</blockquote>
+				<blockquote class="blockquote">
+					<p class="mb-0">It is better to lead from behind and to put others in front, especially when you celebrate victory when nice things occur. You take the front line when there is danger. Then people will appreciate your leadership.</p>
+					<footer class="blockquote-footer">Words of Wisdom by 
+						<cite title="Source Title">Nelson Mandela</cite>
+					</footer>
+				</blockquote>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="container">
-	<div class="row" style="align-self: center;">
-		{% for group in groups %}
-
-
-		<div class="card custom-card" style="width: 18rem;background: #F0544F">
-			<div class="card-body">
-				<h1 class="card-title"><a style="color: #FCFCFC" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a></h1>
-				<h6 class="card-subtitle mb-2" style="color: #E5E5E5"><small># links</small></h6>
-				<p class="card-text">comma seperated links list here.</p>
-				<a href="#" class="card-link" style="color: #313F9E">edit</a>
-				<a href="#" class="card-link" style="color: #313F9E">delete</a>
+	<div class="container">
+		<div class="row" style="align-self: center;">
+			{% for group in groups %}
+			<div class="card custom-card col-lg-3">
+				<div class="card-body">
+					<h1 class="card-title">
+						<a class="card-main" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a></h1>
+						<h6 class="card-subtitle mb-2 ">
+							<small>
+								{{group.group__count}} link{{ group.group__count|pluralize:"s" }}
+							</small>
+						</h6>
+						<p class="card-text">
+							{% for link in links %}
+							{% if link.card == group %}
+							<a href="{{ link.link }}" class="btn btn-info btn-sm tinylink" role="button" aria-pressed="true">{{ link.title }}</a>
+							{% endif %}
+							{% endfor %}
+						</p>
+						<a href="{{ group.get_edit_url }}" class="btn btn-light btn-sm changecard" role="button" aria-pressed="true">edit</a>
+						<a href="#" class="btn btn-dark btn-sm changecard" data-toggle="modal" data-target="#modal_{{group.slug}}" aria-pressed="true">delete</a>
+				<!-- drop a modal here -->
 			</div>
 		</div>
-
-
-<!-- 		<a href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()" class="card-block clearfix col-lg-3 col-md-3 text-center rounded"> 
-			<div class="row">
-				<div class="col-12 align-middle">
-					<h3>{{group.group_name}}</h3>
-					<p style="color: white">
-						{% for link in group.webpage.all %}
-						{{link.title}}, 
-						{% endfor %}
-					</p>
-				</div>
-			</div>
-		</a> -->
+		{% include 'core/delete_modal.html' %}
 		{% endfor %}
 		<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
 			<div class="row">
@@ -102,4 +131,6 @@ onload="startTime()"
 		</a>
 	</div>
 </div>
+
+
 {% endblock %}

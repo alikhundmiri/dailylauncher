@@ -28,6 +28,12 @@ class group(models.Model):
 	def get_absolute_url(self):
 		return reverse("user:home", kwargs={"slug" : self.slug})
 
+	def get_edit_url(self):
+		return reverse("user:card_edit", kwargs={"slug" : self.slug})
+
+	def get_delete_url(self):
+		return reverse('user:card_delete', kwargs={"slug" : self.slug})
+
 	class Meta:
 		ordering 	=		["-timestamp", "-updated"]
 
