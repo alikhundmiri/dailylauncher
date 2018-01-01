@@ -1,3 +1,4 @@
+# from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
@@ -40,7 +41,7 @@ def index(request):
 		return HttpResponseRedirect('/welcome')
 
 	# created_groups = group.objects.filter(user=request.user)
-	created_groups = group.objects.annotate(group__count=Count('card_content'))
+	created_groups = group.objects.filter(user=request.user).annotate(group__count=Count('card_content'))
 	# the annotate will count the number of foreign keys connected to each of the item in this group.
 
 	created_links = linklist.objects.filter(user=request.user)
@@ -146,7 +147,7 @@ def card_edit(request, slug = None):
 	user = request.user
 	# new_group = group()
 	new_group = get_object_or_404(group, slug=slug)
-	print(new_group)
+	# print(new_group)
 	# Create the formset, with specifit form and formset we want.
 	LinkFormSet = formset_factory(NewLinkForm, formset=BaseLinkFormSet)
 
@@ -162,7 +163,7 @@ def card_edit(request, slug = None):
 
 
 	if request.method == "POST":
-		group_form = NewGroupForm(request.POST, instance=new_group)
+		group_form = NewGroupForm(request.POST)
 		link_formset = LinkFormSet(request.POST)
 
 		if group_form.is_valid() and link_formset.is_valid():
@@ -186,15 +187,17 @@ def card_edit(request, slug = None):
 
 			try:
 				with transaction.atomic():
-					# Replace the old with the new
-					linklist.objects.filter(title=title).delete()
+					# Replace the old with the new	
+					# this will delete all the existing links associated with this card
+					user_links.delete()
+					# and save the new given ones in this form.
 					linklist.objects.bulk_create(new_links)
 
 					# and notify our users that it worked
 					messages.success(request, "You have updated your card")
 			except IntegrityError: # if the transaction failed
 				messages.error(request, 'There was an error saving your card')
-				return HttpResponseRedirect("/")
+			return HttpResponseRedirect("/")
 			# new_group.save()
 			# link_form.save_m2m()
 

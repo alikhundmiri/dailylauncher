@@ -24,11 +24,13 @@ from accounts.views import (login_view, logout_view, register_view)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('welcome/', welcome, name='welcome'),
-    path('', include('core.urls', namespace='user')),
 
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
+
+    path('', include('core.urls', namespace='user')),
+
 ]
 
 if settings.DEBUG:
