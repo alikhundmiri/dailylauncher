@@ -13,26 +13,6 @@ from django.conf import settings
 from .models import group, linklist
 from .forms import NewGroupForm, NewLinkForm, BaseLinkFormSet
 
-# def demopage(request):
-# 	dbug = settings.DEBUG
-# 	today = datetime.today()
-
-# 	if request.user.is_authenticated:
-# 		return HttpResponseRedirect('user:home')
-	
-# 	created_groups = group.objects.filter(user='demo_agent').annotate(group__count=Count('card_content'))
-# 	created_links = linklist.objects.filter(user='demo_agent')
-
-# 	context = {
-# 		"groups" : created_groups,
-# 		'links' : created_links,
-# 		"today" : today,
-# 		'dbug' : dbug,
-
-# 	}
-# 	return render(request, 'user_home.html', context)
-
-
 def price(request):
 	dbug = settings.DEBUG
 
@@ -41,42 +21,41 @@ def price(request):
 	}
 	return render(request, 'price.html', context)
 
-def welcome(request):
+def landing(request):
 	dbug = settings.DEBUG
 	context = {
 		'dbug' : dbug
 	}
-	return render(request, 'welcome.html', context)
+	return render(request, 'landing.html', context)
+	
+def about(request):
+	dbug = settings.DEBUG
+	context = {
+		'dbug' : dbug,
+	}
+	return render(request, 'about.html', context)
+
 
 def index(request):
 	dbug = settings.DEBUG
 	today = datetime.today()
 	if request.user.is_authenticated:
-		# created_groups = get_object_or_404(group, user=request.user)
 		pass
 	else:
-		return HttpResponseRedirect('/welcome')
+		return HttpResponseRedirect('/landing')
 
-	# created_groups = group.objects.filter(user=request.user)
 	created_groups = group.objects.filter(user=request.user).annotate(group__count=Count('card_content'))
 	# the annotate will count the number of foreign keys connected to each of the item in this group.
 
 	created_links = linklist.objects.filter(user=request.user)
 
-	# print(created_links)
-	# for g in created_groups.all():
-		# print(g.group_name)
-		# for l in g.website.all():
-			# print("\t\t" + str(l))
-		# print("\n")
-	
 	context = {
 		"groups" : created_groups,
 		'links' : created_links,
 		"today" : today,
 		'dbug' : dbug,
 	}
-	return render(request, 'user_home.html', context)
+	return render(request, 'core/user_home.html', context)
 
 # create a new card
 @login_required

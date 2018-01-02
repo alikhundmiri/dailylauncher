@@ -1,0 +1,158 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+	Welcome | {{ block.super }}
+{% endblock %}
+
+{% block head_extras %}
+	<style>
+		p.card_text {
+			color: #E2F4D7;
+		}
+		h2.card_title {
+			color: #DFFCCF;
+		}
+
+		h1.hero_title {
+			color: #FCFCFC;
+		}
+		h2.hero_subtitle {
+			color: #E3F2F7;
+		}
+		div.big_box {
+			background: #F0544F;
+			margin-top: 50px;
+		}
+		a.card_link {
+			color: #F7FCC7;
+		}
+	</style>
+
+
+	<!-- Custom fonts for this template -->
+	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+    
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'base/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'base/css/one-page-wonder.css' %}" rel="stylesheet">
+	<link href="{% static 'base/css/one-page-wonder.min.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block content_1 %}
+
+	<header class="masthead text-center text-white" >
+		<div class="masthead-content">
+			<div class="container">
+				<h1 class="masthead-heading mb-0 hero_title">Free from Distractions</h1>
+				<h2 class="masthead-subheading mb-0 hero_subtitle">Start your day, afresh!</h2>
+				<a href="{% url 'register' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up</a>			
+				<p class="lead">Scroll down to learn more.</p>
+			</div>
+		</div>
+
+	</header>
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-6 order-lg-2">
+					<div class="p-5">
+						<img class="img-fluid rounded" src="{% static 'base/img/work_space_setup.jpeg' %}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-6 order-lg-1">
+					<div class="p-5">
+						<h2 class="display-4 card_title">Focus is the key.</h2>
+						<p class="card_text">We all love that feeling when we are sitting behind the screen, going <i><a class="card_link" href="https://en.wikipedia.org/wiki/Flow_(psychology)">with the flow</a></i>.
+						<br>But not every morning is like that. Some day we just slip and open up Video streaming sites, bing watched an entire playlist, all while we had so much work to complete.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="p-5">
+						<h2 class="display-4 text-center card_title">This site is designed to help you focus on your work.</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="p-5">
+						<img class="img-fluid" src="{% static 'base/img/daily_launcher_user_page.png' %}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="p-5">
+						<h2 class="display-4 card_title">What you have to do?</h2>
+						<p class="card_text">Simple, set this website as your homepage, create a bunch of cards with links and you are good to go!.<br> We make sure you see what you want to see, <br>everyday.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-6 order-lg-2">
+					<div class="p-5">
+						<img class="img-fluid rounded" src="{% static 'base/img/card help_1000x1000.png' %}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-6 order-lg-1">
+					<div class="p-5">
+						<h2 class="display-4 card_title">what we can do for you?</h2>
+						<p class="card_text">By Creating Cards with different set of websites URLs, we help you start your day without any distractions.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="p-5">
+						<h2 class="display-4 text-center card_title">Interested?</h2>
+						<p class="card_text text-center">This website is a MVP <i>(or a proof of concept)</i>, with enough community support, this service will be improved in the future. Including a payment plan in the future.</p>
+						<div class="row">
+							<div class="col text-center">
+								<a href="{% url 'register' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up</a>
+								<a href="{% url 'login' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Login</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+<!-- 	<footer class="py-5 bg-black">
+		<div class="container">
+			<p class="m-0 text-center text-white small">Copyright &copy; Your Website 2017</p>
+		</div>
+	</footer> -->
+
+	<!-- Bootstrap core JavaScript -->
+	<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+{% endblock %}

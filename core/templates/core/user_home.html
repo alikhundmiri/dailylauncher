@@ -73,7 +73,7 @@ div.modal {
 			{% endfor %}
 		};
 		{% endfor %}
-	</script>
+</script>
 
 	{% endblock %}
 
@@ -103,35 +103,35 @@ div.modal {
 			<div class="card custom-card col-lg-3 col-sm-6 col-md-4 col-xs-10">
 				<div class="card-body">
 					<h1 class="card-title">
-						<a class="card-main" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a></h1>
-						<h6 class="card-subtitle mb-2 ">
-							<small>
-								{{group.group__count}} link{{ group.group__count|pluralize:"s" }}
-							</small>
-						</h6>
-						<p class="card-text">
-							{% for link in links %}
-							{% if link.card == group %}
-							<a href="{{ link.link }}" class="btn btn-info btn-sm tinylink" role="button" aria-pressed="true">{{ link.title }}</a>
-							{% endif %}
-							{% endfor %}
-						</p>
-						<a href="{{ group.get_edit_url }}" class="btn btn-light btn-sm changecard" role="button" aria-pressed="true">edit</a>
-						<a href="#" class="btn btn-dark btn-sm changecard" data-toggle="modal" data-target="#modal_{{group.slug}}" aria-pressed="true">delete</a>
-				<!-- drop a modal here -->
-			</div>
-		</div>
-		{% include 'core/delete_modal.html' %}
-		{% endfor %}
-		<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
-			<div class="row">
-				<div class="col-12 align-middle">
-					<h1 class="display-1"><i>+</i></h1>
+						<a class="card-main" href="#" onclick="return {{request.user.username}}_{{forloop.counter}}()">{{group.group_name}}</a>
+					</h1>
+					<h6 class="card-subtitle mb-2 ">
+						<small>
+							{{group.group__count}} link{{ group.group__count|pluralize:"s" }}
+						</small>
+					</h6>
+					<p class="card-text">
+						{% for link in links %}
+						{% if link.card == group %}
+						<a href="{{ link.link }}" class="btn btn-info btn-sm tinylink" role="button" aria-pressed="true">{{ link.title }}</a>
+						{% endif %}
+						{% endfor %}
+					</p>
+					<a href="{{ group.get_edit_url }}" class="btn btn-light btn-sm changecard" role="button" aria-pressed="true">edit</a>
+					<a href="#" class="btn btn-dark btn-sm changecard" data-toggle="modal" data-target="#modal_{{group.slug}}" aria-pressed="true">delete</a>
 				</div>
 			</div>
-		</a>
+			<!-- drop a modal here -->
+			{% include 'core/delete_modal.html' %}
+			{% endfor %}
+			<a href="{% url 'core:card_create' %}" class="card-block clearfix col-lg-3 col-md-3 text-center rounded">
+				<div class="row">
+					<div class="col-12 align-middle">
+						<h1 class="display-1"><i>+</i></h1>
+					</div>
+				</div>
+			</a>
+		</div>
 	</div>
-</div>
-
-
+	
 {% endblock %}
