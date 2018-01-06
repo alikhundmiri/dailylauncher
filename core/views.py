@@ -93,12 +93,14 @@ def card_create(request):
 					title = link_form.cleaned_data.get('title')
 					protocol = link_form.cleaned_data.get('protocol')
 					if title and link:
-						# print(protocol+edited_link)
+						for ch in ['https://', 'http://']:
+							if ch in link:
+								link = link.replace(ch, "")
 						model_instance = linklist(user=user, card=new_group)
 						setattr(model_instance, 'link', link)
 						setattr(model_instance, 'title', title)
 						setattr(model_instance, 'protocol', protocol)
-						new_links.append(model_instance)						
+						new_links.append(model_instance)
 			try:
 				with transaction.atomic():
 					# Replace the old with the new
@@ -181,13 +183,12 @@ def card_edit(request, slug = None):
 					if title and link:
 						for ch in ['https://', 'http://']:
 							if ch in link:
-								link = link.replace(ch, "")						
-						print(protocol+edited_link)
+								link = link.replace(ch, "")
 						model_instance = linklist(user=user, card=new_group)
 						setattr(model_instance, 'link', link)
 						setattr(model_instance, 'title', title)
 						setattr(model_instance, 'protocol', protocol)
-						new_links.append(model_instance)						
+						new_links.append(model_instance)
 
 			try:
 				with transaction.atomic():
@@ -216,7 +217,7 @@ def card_edit(request, slug = None):
 		'dbug' : dbug,
 		'intro_text' : 'Edit your card!',
 		'button_text' : 'Save Changes',
-		'mid_level_text' : 'You can enter maximum 5 Links in a single card.',		
+		'mid_level_text' : 'You can enter maximum 5 Links in a single card.',
 	}
 	return render(request, 'general_form.html', context)
 
