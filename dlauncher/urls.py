@@ -19,17 +19,18 @@ from django.contrib import admin
 from django.urls import path, include
 
 from core.views import about, landing, index
+from dashboard.views import superdash
 from accounts.views import (login_view, logout_view, register_view)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('landing/', landing, name='landing'),
-    path('about', about, name='about'),
-    
+    path('about/', about, name='about'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
-
+    
+    path('dashboard/', include('dashboard.urls', namespace='dashboard')),
     path('', include('core.urls', namespace='user')),
 
 ]

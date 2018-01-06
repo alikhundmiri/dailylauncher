@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
 from django.db.models import Count
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import datetime
 from django.forms.formsets import formset_factory
 
@@ -27,7 +27,7 @@ def landing(request):
 		'dbug' : dbug
 	}
 	return render(request, 'landing.html', context)
-	
+
 def about(request):
 	dbug = settings.DEBUG
 	context = {
@@ -42,7 +42,7 @@ def index(request):
 	if request.user.is_authenticated:
 		pass
 	else:
-		return HttpResponseRedirect('/landing')
+		return redirect('landing')
 
 	created_groups = group.objects.filter(user=request.user).annotate(group__count=Count('card_content'))
 	# the annotate will count the number of foreign keys connected to each of the item in this group.
@@ -91,10 +91,13 @@ def card_create(request):
 				if link_form.is_valid():
 					link = link_form.cleaned_data.get('link')
 					title = link_form.cleaned_data.get('title')
+					protocol = link_form.cleaned_data.get('protocol')
 					if title and link:
+						# print(protocol+edited_link)
 						model_instance = linklist(user=user, card=new_group)
 						setattr(model_instance, 'link', link)
 						setattr(model_instance, 'title', title)
+						setattr(model_instance, 'protocol', protocol)
 						new_links.append(model_instance)						
 			try:
 				with transaction.atomic():
@@ -150,7 +153,7 @@ def card_edit(request, slug = None):
 	# getting our existing link data for this user, this will be used as initial data
 	user_links = linklist.objects.filter(card=new_group)
 
-	link_data = [{'link' : l.link, 'title' : l.title} for l in user_links]
+	link_data = [{'link' : l.link, 'title' : l.title, 'protocol' : l.protocol} for l in user_links]
 	group_data = {'user' : user, 'group_name' : new_group.group_name}
 	if new_group.user == user:
 		pass
@@ -174,11 +177,16 @@ def card_edit(request, slug = None):
 				if link_form.is_valid():
 					link = link_form.cleaned_data.get('link')
 					title = link_form.cleaned_data.get('title')
-
+					protocol = link_form.cleaned_data.get('protocol')
 					if title and link:
+						for ch in ['https://', 'http://']:
+							if ch in link:
+								link = link.replace(ch, "")						
+						print(protocol+edited_link)
 						model_instance = linklist(user=user, card=new_group)
 						setattr(model_instance, 'link', link)
 						setattr(model_instance, 'title', title)
+						setattr(model_instance, 'protocol', protocol)
 						new_links.append(model_instance)						
 
 			try:

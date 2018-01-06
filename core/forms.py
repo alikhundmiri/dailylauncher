@@ -1,24 +1,27 @@
 from django import forms
 from django.forms.formsets import BaseFormSet
-
+from django.core.validators import URLValidator
 
 from .models import group, linklist
 
 
 # FORM FOR INDIVIDUAL LINKS
 class NewLinkForm(forms.Form):
-	title = forms.CharField(
+	title  = forms.CharField(
 					max_length=50,
 					widget=forms.TextInput(attrs={
 							'placeholder' : 'Example: Github'
 						}), 
 					required=False)
+
 	link = forms.CharField(
 					max_length=100,
 					widget=forms.TextInput(attrs={
 							'placeholder' : 'Example: Https://www.github.com'
 						}),
-					required=False)
+					required=False,
+					)
+	protocol = forms.ChoiceField(choices=linklist.WEB_PROTOCOL, required=False)
 
 # FORM FOR NEW CARD, WHICH WILL BE USED TO NEST THE ABOVE FORM
 class NewGroupForm(forms.Form):

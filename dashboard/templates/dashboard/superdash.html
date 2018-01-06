@@ -1,0 +1,130 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+	Super dashboard | {{ block.super }}
+{% endblock %}
+
+{% block head_extras %}
+	<style>
+		p.card_text {
+			color: #E2F4D7;
+		}
+		h2.card_title {
+			color: #DFFCCF;
+		}
+
+		h1.hero_title {
+			color: #FCFCFC;
+		}
+		h2.hero_subtitle {
+			color: #E3F2F7;
+		}
+		div.big_box {
+			background: #3D1C3C;
+			margin-top: 50px;
+		}
+
+		div.tiny_box {
+			background: #F0544F;
+			margin: 20px;
+
+		}
+		a.card_link {
+			color: #F7FCC7;
+		}
+	</style>
+
+
+	<!-- Custom fonts for this template -->
+	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+    
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'base/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'base/css/one-page-wonder.css' %}" rel="stylesheet">
+	<link href="{% static 'base/css/one-page-wonder.min.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block content_1 %}
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="p-5">
+						<h2 class="display-4 text-center card_title">Super Dash!</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>	
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="tiny_box rounded">
+						<h1 class="hero_title text-center" style="margin-top: 20px"> Latest Numbers </h1>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="p-5 tiny_box rounded">
+						<h1 class="display-1 hero_title text-center">{{total_user}}</h1>
+						<br>
+						<p class="card_text text-center"><i>Total Users</i></p>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="p-5 tiny_box rounded">
+						<h1 class="display-1 hero_title text-center">{{total_cards}}</h1>
+						<br>
+						<p class="card_text text-center"><i>Total Cards</i></p>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="p-5 tiny_box rounded">
+						<h1 class="display-1 hero_title text-center">{{total_links}}</h1>
+						<br>
+						<p class="card_text text-center"><i>Total Link</i></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container big_box rounded">
+			<div class="row align-items-center">
+				<div class="col-lg-12">
+					<div class="tiny_box rounded">
+						<h1 class="hero_title text-center" style="margin-top: 20px"> Average Numbers </h1>					
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="p-5 tiny_box rounded">
+						<h1 class="display-1 hero_title text-center ">{{card_counts_per_user}}</h1>
+						<br>
+						<p class="card_text text-center"><i>Cards Per user</i></p>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="p-5 tiny_box rounded">
+						<h1 class="display-1 hero_title text-center">{{avg_links_per_card}}</h1>
+						<br>
+						<p class="card_text text-center"><i>Links Per Card</i></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+{% endblock %}

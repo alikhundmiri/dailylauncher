@@ -65,6 +65,7 @@
 
 					<div>
 							<h4><small>{{mid_level_text}}</small></h4>
+							<p class="lead">Make sure to include the full URL below.<br>For example : https://www.example.com</p>
 						
 					</div>
 					<div class="row form-group">
@@ -76,15 +77,27 @@
 									</div>
 									<div class="col-lg-12">
 										<div class="row">
-											<div class="col-2">
+											<div class="col-3">
 												{{ link_form.title.label_tag }}
 											</div>
-											<div class="col-10">
+											<div class="col-9" style="padding-left: 0px" >
 												{{ link_form.title|add_class:'form-control'}}
 											</div>
 										</div>
 									</div>
+
 									<div class="col-lg-12">
+										<div class="row">
+											<div class="col-3"  style="padding-right: 5px">
+												{{ link_form.protocol|add_class:'form-control' }}
+											</div>
+											<div class="col-9" style="padding-left: 0px">
+												{{ link_form.link|add_class:'form-control' }}
+											</div>
+										</div>
+									</div>
+
+<!-- 									<div class="col-lg-12">
 										<div class="row">
 											<div class="col-2">
 												{{ link_form.link.label_tag }}
@@ -93,7 +106,8 @@
 												{{ link_form.link|add_class:'form-control' }}
 											</div>
 										</div>
-									</div>
+									</div> -->
+
 								</div>
 								<div class="row">
 									<div class="col">

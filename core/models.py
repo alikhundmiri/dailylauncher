@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save
+from django.core.validators import URLValidator
 from django.forms import ModelForm
 from django.urls import reverse
 from django.utils.text import slugify
@@ -40,8 +41,13 @@ class group(models.Model):
 
 
 class linklist(models.Model):
+	WEB_PROTOCOL = (
+		("HTTP://", 'HTTP'),
+		("HTTPS://", 'HTTPS'),
+		)
 	user 			=		models.ForeignKey(settings.AUTH_USER_MODEL, default=1,on_delete=models.CASCADE)
 	title			=		models.CharField(max_length=50, blank=False, null=False)
+	protocol		=		models.CharField(max_length=5, choices=WEB_PROTOCOL, default=WEB_PROTOCOL[0][0])
 	link 			=		models.CharField(max_length=100, blank=False, null=False)
 	card			=		models.ForeignKey('group', related_name='card_content', on_delete=models.CASCADE, default=1)
 
