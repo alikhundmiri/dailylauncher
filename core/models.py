@@ -47,7 +47,7 @@ class linklist(models.Model):
 		)
 	user 			=		models.ForeignKey(settings.AUTH_USER_MODEL, default=1,on_delete=models.CASCADE)
 	title			=		models.CharField(max_length=50, blank=False, null=False)
-	protocol		=		models.CharField(max_length=5, choices=WEB_PROTOCOL, default=WEB_PROTOCOL[0][0])
+	protocol		=		models.CharField(max_length=10, choices=WEB_PROTOCOL, default=WEB_PROTOCOL[0][0])
 	link 			=		models.CharField(max_length=100, blank=False, null=False)
 	card			=		models.ForeignKey('group', related_name='card_content', on_delete=models.CASCADE, default=1)
 
