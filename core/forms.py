@@ -17,7 +17,7 @@ class NewLinkForm(forms.Form):
 	link = forms.CharField(
 					max_length=100,
 					widget=forms.TextInput(attrs={
-							'placeholder' : 'Example: Https://www.github.com'
+							'placeholder' : 'Example: www.github.com'
 						}),
 					required=False,
 					)
